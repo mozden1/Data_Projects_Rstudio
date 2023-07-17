@@ -1,0 +1,28 @@
+library(readxl)
+GDP <- read_excel("C:/Users/MEHMET/Downloads/GDP.xlsx")
+library(readxl)
+Unemployment <- read_excel("C:/Users/MEHMET/Downloads/Unemployment.xlsx")
+library(readxl)
+LABOUR_FORCE <- read_excel("C:/Users/MEHMET/Downloads/LABOUR FORCE.xlsx")
+library(readxl)
+interest_rate <- read_excel("C:/Users/MEHMET/Downloads/interest rate.xlsx")
+# create sample data frames
+data1 <- GDP
+data2 <- Unemployment
+data3 <- LABOUR_FORCE
+data4 <- interest_rate
+# merge data frames
+merged_df <- merge(merge(merge(data1,data2, by = "Country Name"), data3, by = "Country Name"), data4, by = "Country Name")
+
+data(merged_df)
+df_no_zeros <- merged_df[merged_df$GDPP != 0, ]
+df_no_zeros <- merged_df[merged_df$LE != 0, ]
+df_no_zeros <- merged_df[merged_df$G != 0, ]
+df_no_zeros <- merged_df[merged_df$HE != 0, ]
+df_no_zeros.NOOMİT<- na.omit(df_no_zeros)
+
+
+
+model <- lm(GDP ~ + U + LF+I, data = merged_df)
+
+summary(model)
